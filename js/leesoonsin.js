@@ -13,10 +13,17 @@
 
 // 공직자를 위한 신목민심서 평가
 // https://m.blog.naver.com/PostView.nhn?isHttpsRedirect=true&blogId=aesis100&logNo=221020051885&categoryNo=25&proxyReferer=
+
+// 인권의 이해 답안
+// https://m.blog.naver.com/qkrwjddns91/222059569837
+
 (function() {
     'use strict';
     var frame1 = null;
     var frame2 = null;
+    // 0: 이순신장군의 청렴리더쉽, 목민심서
+    // 1: 인권의 이해
+    var learn_subject = 1;
 
     // 윈도우 confirm 클릭
     // https://newbedev.com/how-to-override-the-alert-function-with-a-userscript
@@ -34,15 +41,60 @@
         }
     }
 
-    function get_document() {
+//     function get_document() {
+//         for (let i=0; i<frames.length; i++) {
+//             if (frames[i].window.name === "learning") {
+//                 // 이순신
+//                 if (learn_subject == 0) {
+//                     frame1=frames[i].document.getElementsByTagName('iframe')['sub-frame-contents'];
+//                     frame2=frame1[0].contentDocument.getElementById("contentFrame");
+//                     return frame2.contentDocument;
+//                 } else if (learn_subject == 1) {
+//                     // 인권의 이해
+//                     frame1=frames[i].document.getElementsByTagName('iframe')[0];
+//                     return frame1.contentDocument;
+//                 }
+//             }
+//         }
+//         return null;
+//     }
+
+    function get_document2() {
         for (let i=0; i<frames.length; i++) {
-            if (frames[i].window.name === "learning") {
+            //console.log(frames[i].window.name);
+            // 이순신
+            if (learn_subject == 0) {
                 frame1=frames[i].document.getElementsByTagName('iframe')['sub-frame-contents'];
-                frame2=frame1.contentDocument.getElementById("contentFrame");
+                frame2=frame1[0].contentDocument.getElementById("contentFrame");
                 return frame2.contentDocument;
+            }
+            // 인권의 이해
+            else if (learn_subject == 1) {
+                if (frames[i].window.name === "learning") {
+                    frame1=frames[i].document.getElementsByTagName('iframe')[0]
+                    return frame1.contentDocument;
+                } else if (frames[i].window.name === "html5Main") {
+                    return frames[i].document;
+                }
             }
         }
         return null;
+    }
+
+    // 이순신
+    function get_timer_elements(doc) {
+        let total_time = doc.querySelector("span.totalTimer.notranslate");
+        let current_time = doc.querySelector('div.timer.fl > span.curTimer.notranslate');
+        let next;
+
+        // 이순신
+        if (learn_subject == 0)
+            next = doc.querySelector("div.addControl > div.nextBtn > a");
+        // 인권
+        else if (learn_subject == 1)
+            next = doc.querySelector("div.nextBtn a");
+
+        return [total_time, current_time, next];
     }
 
 
@@ -52,18 +104,29 @@
 
         set_confirm_scope();
 
-        let total_time = doc.querySelector("span.totalTimer.notranslate");
-        let current_time = doc.querySelector('#mediaControl > div.timer.fl > span.curTimer.notranslate');
+        let elms = get_timer_elements(doc);
+        let total_time = elms[0];
+        let current_time = elms[1];
+        let next = elms[2];
+
         let tt_tokens = total_time.innerText.split(':');
         let ct_tokens = current_time.innerText.split(':');
         let current_sec = parseInt(ct_tokens[0])*60 + parseInt(ct_tokens[1]);
         let total_sec = parseInt(tt_tokens[0])*60 + parseInt(tt_tokens[1]);
-        let next = doc.querySelector("#mediaControl > div.addControl > div.nextBtn > a");
+
+        //let next = doc.querySelector("#mediaControl > div.addControl > div.nextBtn > a");
         //window.setInterval(check_time.bind(null, current_sec, total_sec, next), 1000);
         console.log('checking time : ' + current_sec + '/' + total_sec);
         if (current_sec >= total_sec) {
             try {
-                let tok = doc.querySelector("#mediaControl > div.addControl > div.pageNum.notranslate").innerText.split('/');
+                let tok;
+                // 이순신
+                if (learn_subject == 0)
+                    tok = doc.querySelector("#mediaControl > div.addControl > div.pageNum.notranslate").innerText.split('/');
+                // 인권의 이해
+                else if (learn_subject == 1)
+                    tok = [doc.querySelector("div.pageNum").innerText, doc.querySelector("div.totalPageNum").innerText];
+
                 if (parseInt(tok[0].trim()) < parseInt(tok[1].trim())) {
                     next.click();
                 } else {
@@ -85,7 +148,7 @@
 
     function main() {
         try {
-            check_complete(get_document());
+            check_complete(get_document2());
         } catch (err) {
             return;
         }
