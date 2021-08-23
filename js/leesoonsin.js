@@ -23,6 +23,7 @@
     var frame2 = null;
     // 0: 이순신장군의 청렴리더쉽, 목민심서
     // 1: 인권의 이해
+    // 2: 군인인권의 이해
     var learn_subject = 1;
 
     // 윈도우 confirm 클릭
@@ -77,6 +78,12 @@
                     return frames[i].document;
                 }
             }
+	    // 군인인권의 이해
+	    else if (learn_subject == 2) {
+		// iframe tag (HTMLCollection)
+                frame1=frames[i].document.getElementsByTagName('iframe')[0];
+                frame2=frame1.contentDocument.getElementById("contentsFrame");
+	    }
         }
         return null;
     }
@@ -93,7 +100,13 @@
         // 인권
         else if (learn_subject == 1)
             next = doc.querySelector("div.nextBtn a");
-
+	// 군인인권의 이해
+	else if (learn_subject == 2) {
+	    total_time = doc.querySelector("#fs-footer > div.footer_inner > div.control > div.time > ul > li.time_tol");
+            current_time = doc.querySelector('#fs-footer > div.footer_inner > div.control > div.time > ul > li.time_cur');
+	    next = doc.querySelector("#fs-footer > div.footer_inner > div.control > button.next.tab.over");
+	}
+	
         return [total_time, current_time, next];
     }
 
@@ -125,8 +138,18 @@
                     tok = doc.querySelector("#mediaControl > div.addControl > div.pageNum.notranslate").innerText.split('/');
                 // 인권의 이해
                 else if (learn_subject == 1)
-                    tok = [doc.querySelector("div.pageNum").innerText, doc.querySelector("div.totalPageNum").innerText];
-
+                    tok = [
+			doc.querySelector("div.pageNum").innerText,
+			doc.querySelector("div.totalPageNum").innerText
+		    ];
+		// 군인인권의 이해
+		else if (learn_subject == 2) {
+		    tok = [
+			doc.querySelector("#fs-footer > div.footer_inner > div.control > div.paging > ul > li.page_current").innerText,
+			doc.querySelector("#fs-footer > div.footer_inner > div.control > div.paging > ul > li.page_total").innerText
+                    ];
+		}
+		    
                 if (parseInt(tok[0].trim()) < parseInt(tok[1].trim())) {
                     next.click();
                 } else {
