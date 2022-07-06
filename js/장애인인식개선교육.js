@@ -10,7 +10,6 @@
 // @run-at       document-start
 // ==/UserScript==
 
-// 답안
 
 function get_document() {
     let doc = window.top.frames[0].document.querySelector('#sub-frame-contents').contentDocument.querySelector('#contentFrame').contentDocument;
@@ -52,7 +51,7 @@ function main(event) {
         window.setTimeout(wait_playbutton, 5000);
     }
 
-    console.log(`Polling : ${current_time} / ${total_time}`);
+    console.log(`Checking : ${current_time} / ${total_time}`);
     if (current_time >= total_time) {
         next_button.click();
         window.setTimeout(wait_playbutton, 5000);
@@ -60,5 +59,5 @@ function main(event) {
 }
 
 
-// window.clearInterval(main_interval)
 main_interval = window.setInterval(main, 5000);
+// window.clearInterval(main_interval)

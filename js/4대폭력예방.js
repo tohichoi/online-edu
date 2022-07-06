@@ -11,27 +11,15 @@
 // ==/UserScript==
 
 
-// class Element {
-//     constructor() {
-//         this.next_button = null;
-//         this.current_position = null;
-//         this.total_position = null;
-//     }
-// }
-
-    
-// class Conflict extends Element {
-
-// }
-
-    
 let prev_width = '';
 let main_interval = null;
 let playbutton_interval = null;
 
+
 function get_document() {
     return window.top.frames[0].document.querySelector('#sub-frame-contents').contentDocument.querySelector('#contentFrame').contentDocument;
 }
+
 
 function wait_playbutton(event) {
     let playbutton = get_document().getElementsByClassName('st-play')[0];
@@ -61,9 +49,7 @@ function main(event) {
     let t = parseInt(pagetotal.textContent);
 
     console.log(`Checking: ${c}/${t} : ${current_width}`);
-
     if (current_width == prev_width) {
-        // page current/total
         button.click();
         window.setTimeout(wait_playbutton, 5000);
     } else {
@@ -71,4 +57,7 @@ function main(event) {
     }
 }
 
+
 main_interval = window.setInterval(main, 5000);
+// window.clearInterval(main_interval)
+

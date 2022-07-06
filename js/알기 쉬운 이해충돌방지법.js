@@ -2,7 +2,7 @@
 // @name         알기 쉬운 이해충돌방지법
 // @namespace    http://mnd.nhi.go.kr/
 // @version      0.1
-// @description  Tested on 4대 폭력 예방
+// @description  알기 쉬운 이해충돌방지법
 // @author       You
 // @match        http*://*.nhi.go.kr/study/*
 // @icon         https://www.google.com/s2/favicons?domain=go.kr
@@ -17,20 +17,15 @@
 // https://blog.naver.com/jssunny72/222771265115
 
 
-function main(event) {
-    function get_doc() {
-        //let doc = document.querySelector('#sub-frame-contents').contentDocument;
-        //let doc = window.frames[0].document;
-        //let doc = window.document;
-        //let doc = document.querySelector('#learning').contentDocument.querySelector('#sub-frame-contents').contentDocument.querySelector('#contentFrame').contentDocument;
+function get_document() {
+    let doc = window.frames[0].document.querySelector('#sub-frame-contents').contentDocument.querySelector('#contentFrame').contentDocument;
     
-        //let doc = window.frames[0].document.querySelector('#contentFrame').contentDocument;
-        let doc = window.frames[0].document.querySelector('#sub-frame-contents').contentDocument.querySelector('#contentFrame').contentDocument;
-        
-        return doc;
-    }
+    return doc;
+}
 
-    let doc = get_doc();
+
+function main(event) {
+    let doc = get_document();
     // next
     let next_button = doc.querySelector('#nextBubble');
 
@@ -41,12 +36,12 @@ function main(event) {
     let current_time = parseInt(match[1]) * 60 + parseInt(match[2]);
     let total_time = parseInt(match[3]) * 60 + parseInt(match[4]);
 
-    console.log(`Polling : ${current_time} / ${total_time}`);
+    console.log(`Checking : ${current_time} / ${total_time}`);
     if (current_time >= total_time) {
-        // click
         next_button.click();
     }
 }
 
 
 main_interval = window.setInterval(main, 5000);
+// window.clearInterval(main_interval)
