@@ -1,6 +1,3 @@
-// 정답지
-// https://neverdiekiller.tistory.com/22
-
 function searchFrame(id) {                                     // id = the id of the wanted (i)frame
     var result = null,                                         // Stores the result
         search = function (iframes) {                          // Recursively called function
@@ -23,7 +20,7 @@ function auto_click() {
     let doc = searchFrame('html5Main').document;
     if (!doc) {
         console.log('Cannot find document object');
-        return;
+        return 
     }
 
     let current_time = doc.querySelector('.curTimer');
@@ -32,10 +29,10 @@ function auto_click() {
     let current_page = doc.querySelector('.pageNum');
     let total_page = doc.querySelector('.totalPageNum');
     let voice_speed = doc.querySelector('.vod-speed2');
-    let current_voice_speed = doc.querySelector('.vod-speedTxt').innerText;
+    let current_voice_speed = doc.querySelector('.vod-speedTxt').innerText; 
 
     if (current_voice_speed != 'x1.5') {
-        console.log('Speeding up play speed to x1.5');
+        console.log('Speeding up play speed to x1.5')
         voice_speed.children[0].click();
     }
 
@@ -50,23 +47,23 @@ function auto_click() {
 
     if (ct[0] == tt[0] && ct[1] == tt[1]) {
         if (cp != tp) {
-            console.log('To next episode');
+            console.log('To next episode')
             next_button.click();
         }
         else {
             // 프레임내의 document element 가 아님
-            let doc2 = document;
+            let doc2 = document; 
             let chapter_list = doc2.querySelector('#turnList').children;
             let current_chapter = doc2.querySelector('#turnHeader');
             let icc = parseInt(current_chapter.innerText);
-            let itc = chapter_list.length;
+            let itc = chapter_list.length - 1;
 
             if (icc == itc) {
-                console.log('All finished');
-                window.top.close();
-            } else {
                 console.log('To next chapter');
                 chapter_list[icc - 1].children[1].click();
+            } else {
+                console.log('All finished');
+                window.top.close();
             }
 
             // console.log('Chapter finished')
