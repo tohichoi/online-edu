@@ -52,7 +52,7 @@ function main(event) {
     let total_time = doc.querySelector('.totalTimer').innerText;
 
     console.log(`Checking : ${current_time} / ${total_time}`);
-    if (current_time == total_time) {
+    if (current_time == total_time && current_time != "00:00") {
         let page_info = doc.querySelector('.pageNum').innerText;
         let tokens = page_info.split('/');
         let cp = tokens[0].trim();
