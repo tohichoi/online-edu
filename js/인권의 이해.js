@@ -32,8 +32,14 @@ function auto_click() {
     let current_page = doc.querySelector('.pageNum');
     let total_page = doc.querySelector('.totalPageNum');
     let voice_speed = doc.querySelector('.vod-speed2');
-    let current_voice_speed = doc.querySelector('.vod-speedTxt').innerText;
-
+    if (voice_speed) {
+        let current_voice_speed = doc.querySelector('.vod-speed').innerText;
+        // if (current_voice_speed != '1.5 x') {
+        //     console.log('Speeding up play speed to x1.5');
+        //     voice_speed.children[0].click();
+        // }
+    }
+    
     if (current_voice_speed != 'x1.5') {
         console.log('Speeding up play speed to x1.5');
         voice_speed.children[0].click();

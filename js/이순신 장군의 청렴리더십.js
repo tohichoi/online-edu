@@ -41,7 +41,6 @@ function main(event) {
     let voice_speed = doc.querySelector('.speedUp');
     if (voice_speed) {
         let current_voice_speed = doc.querySelector('.vod-speed').innerText;
-
         // if (current_voice_speed != '1.5 x') {
         //     console.log('Speeding up play speed to x1.5');
         //     voice_speed.children[0].click();
