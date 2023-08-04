@@ -34,7 +34,7 @@ function searchFrame(id) {                                     // id = the id of
     return result;                                              // Returns the wanted window if found, null otherwise
 }
 
-function main(event) {
+function main(interval_params) {
     var doc = searchFrame('contentFrame').document;
     // next
     let next_button = doc.querySelector('.nextBtn');
@@ -60,11 +60,14 @@ function main(event) {
         console.log(`Page : ${cp} / ${tp}`);
         if (cp != tp)
             next_button.children[0].click();
-        else
+        else {
             window.top.close();
+            clearInterval(interval_params.id);
+        }
     }
 }
 
+var interval_params = {};
+interval_params.id = window.setInterval(main, 1000);
 
-window.setInterval(main, 1000);
 // window.clearInterval(main_interval)
