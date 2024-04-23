@@ -47,6 +47,9 @@ function main(event) {
     if (!doc) {
         return;
     }
+
+    window.setTimeout(wait_playbutton, 5000);
+
     let progress = doc.querySelector(".progress-range");
     let pagecurrent = doc.getElementsByClassName('pageCurrent')[0];
     let pagetotal = doc.getElementsByClassName('pageTotal')[0];
