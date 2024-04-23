@@ -1,11 +1,10 @@
 // ==UserScript==
 // @name         이순신장군의 청렴리더쉽, 목민심서/인권의 이해/군인인권의 이해
-
 // @namespace    http://mnd.nhi.go.kr/
 // @version      0.1
 // @description  Tested on 이순신장군의 청렴리더십, 공직자를 위한 신목민심서 in 나라배움터
 // @author       You
-// @match        https://mnd.nhi.go.kr/study/*
+// @match        https://*.nhi.go.kr/study/*
 // @icon         https://www.google.com/s2/favicons?domain=go.kr
 // @grant        window.onurlchange
 // @run-at       document-start
@@ -107,6 +106,10 @@ var learn_subject = 0;
     function check_complete(doc) {
         if (doc == null)
             return;
+
+        let start_button = doc.getElementById('mobile_start_btn');
+        if (start_button)
+            start_button.click();
 
         set_confirm_scope();
 
