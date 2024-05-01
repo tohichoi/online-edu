@@ -6,7 +6,7 @@
 // @author       You
 // @match        http*://*.nhi.go.kr/study/*
 // @icon         https://www.google.com/s2/favicons?domain=go.kr
-// @grant        @grant window.onurlchange
+// @grant        window.onurlchange
 // @run-at       document-start
 // ==/UserScript==
 
@@ -49,9 +49,16 @@ function main(event) {
     }
     
     // progress
-    let current_time = doc.querySelector('.curTimer').innerText;
-    let total_time = doc.querySelector('.totalTimer').innerText;
-
+    let current_time = null;
+    let total_time = null;
+    try {
+        current_time = doc.querySelector('.curTimer').innerText;
+        total_time = doc.querySelector('.totalTimer').innerText;
+    catch (err) {
+        console.log('Cannot find time elements');
+        return;
+    }
+    
     console.log(`Checking : ${current_time} / ${total_time}`);
     if (current_time == total_time) {
         let page_info = doc.querySelector('.pageNum').innerText;
